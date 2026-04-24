@@ -6,17 +6,14 @@ A full-stack web application built for the **SRM Full Stack Engineering Challeng
 
 ## Screenshots
 
-<!-- Add screenshots below after deployment -->
-
 ### Frontend — Input Panel
-<!-- ![Input Panel](screenshots/input.png) -->
+![Input Panel](frontend/first.png)
 
 ### Frontend — Results View
-<!-- ![Results View](screenshots/results.png) -->
+![Results View](frontend/second.png)
 
 ### Frontend — Cycle Detection
-<!-- ![Cycle Detection](screenshots/cycle.png) -->
-
+![Cycle Detection](frontend/third.png)
 ---
 
 ## Live Demo

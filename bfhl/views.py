@@ -41,6 +41,11 @@ def bfhl_endpoint(request):
     return JsonResponse(result, status=200)
 
 
+def health(request):
+    """GET /health — used by UptimeRobot to keep the server alive."""
+    return JsonResponse({"status": "ok"})
+
+
 def frontend(request):
     """Serve the single-page frontend."""
     return render(request, "index.html")

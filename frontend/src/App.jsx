@@ -15,16 +15,27 @@ export default function App() {
     setError(null)
     setResult(null)
     try {
-      const res  = await fetch(API_URL, {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: entries }),
       })
-      const json = await res.json()
+
+      let json
+      try {
+        json = await res.json()
+      } catch {
+        // Server returned non-JSON (e.g. 404 HTML page from wrong URL)
+        throw new Error(
+          `API returned a non-JSON response (HTTP ${res.status}). ` +
+          `Check that the API URL is reachable: ${API_URL}`
+        )
+      }
+
       if (!res.ok) setError(json.error || `Server error ${res.status}`)
       else         setResult(json)
     } catch (e) {
-      setError(`Network error — ${e.message}`)
+      setError(e.message)
     } finally {
       setLoading(false)
     }

@@ -5,7 +5,7 @@ import './App.css'
 
 const API_URL = import.meta.env.VITE_API_URL || '/bfhl'
 
-function App() {
+export default function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState(null)
   const [result, setResult]   = useState(null)
@@ -15,19 +15,16 @@ function App() {
     setError(null)
     setResult(null)
     try {
-      const res = await fetch(API_URL, {
+      const res  = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: entries }),
       })
       const json = await res.json()
-      if (!res.ok) {
-        setError(json.error || `Server error ${res.status}`)
-      } else {
-        setResult(json)
-      }
+      if (!res.ok) setError(json.error || `Server error ${res.status}`)
+      else         setResult(json)
     } catch (e) {
-      setError(`Network error: ${e.message}`)
+      setError(`Network error — ${e.message}`)
     } finally {
       setLoading(false)
     }
@@ -36,14 +33,18 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">BFHL Node Hierarchy Analyser</h1>
-        <p className="app-sub">Enter node edges to discover tree structures and cycles</p>
+        <div className="app-wordmark">
+          <span className="app-wordmark-dot" />
+          <span className="app-wordmark-text">BFHL Challenge</span>
+        </div>
+        <h1 className="app-title">Node Hierarchy Analyser</h1>
+        <p className="app-sub">Parse edge lists into trees, detect cycles, and compute depth.</p>
       </header>
 
       <InputPanel onSubmit={handleSubmit} loading={loading} />
 
       {error && (
-        <div className="error-banner">
+        <div className="error-banner" role="alert">
           <span className="error-icon">✕</span>
           {error}
         </div>
@@ -53,5 +54,3 @@ function App() {
     </div>
   )
 }
-
-export default App

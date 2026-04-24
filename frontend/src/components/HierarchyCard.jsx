@@ -1,26 +1,36 @@
 import TreeView from './TreeView'
 
-export default function HierarchyCard({ hierarchy }) {
+export default function HierarchyCard({ hierarchy, index }) {
   const { root, tree, depth, has_cycle } = hierarchy
 
   return (
-    <div className={`h-card${has_cycle ? ' h-card-cyclic' : ''}`}>
-      <div className="h-card-header">
-        <span className="h-root">{root}</span>
-        {has_cycle
-          ? <span className="h-pill h-pill-cycle">Cycle</span>
-          : <span className="h-pill h-pill-tree">Tree</span>
-        }
+    <div
+      className={`h-card${has_cycle ? ' h-card-cyclic' : ''}`}
+      style={{ animationDelay: `${index * 55}ms` }}
+    >
+      <div className="h-card-top">
+        <span className={`h-root-badge${has_cycle ? ' h-root-badge-cycle' : ''}`}>
+          {root}
+        </span>
+        <span className={`h-status ${has_cycle ? 'h-status-cycle' : 'h-status-tree'}`}>
+          {has_cycle ? 'Cycle' : 'Tree'}
+        </span>
       </div>
 
       {!has_cycle && (
-        <p className="h-depth">Depth: <strong>{depth}</strong></p>
+        <div className="h-meta">
+          <span className="h-depth-pill">depth {depth}</span>
+        </div>
       )}
 
-      {has_cycle
-        ? <p className="cycle-msg">⟳ Cycle detected — no tree structure</p>
-        : <TreeView tree={tree} />
-      }
+      {has_cycle ? (
+        <div className="h-cycle-msg">
+          <span className="h-cycle-icon">↺</span>
+          Cyclic — no tree structure
+        </div>
+      ) : (
+        <TreeView tree={tree} />
+      )}
     </div>
   )
 }
